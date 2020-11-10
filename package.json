@@ -1,0 +1,27 @@
+{
+  "name": "daechu",
+  "version": "1.0.0",
+  "description": "node.js RestFul",
+  "main": "server.js",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon server.js",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnfwlxo11/node_RestFul.git"
+  },
+  "author": "daechu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dnfwlxo11/node_RestFul/issues"
+  },
+  "homepage": "https://github.com/dnfwlxo11/node_RestFul#readme"
+}
