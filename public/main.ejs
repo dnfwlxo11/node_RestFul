@@ -1,30 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href='css/style.css'>
     <title>MainPage(메인페이지)</title>
 </head>
+
 <body>
-    <form method="POST" action='/main'>
-        <div class='content_wrap'>
-            <div class='infor_wrap'>
-                <div class='infor_text_div' style="text-align: center; float: left;padding: 10px;">
-                    ID(아이디) 
-                    <p></p>
-                    PASS(비밀번호) 
-                </div>
-                <div class='infor_input_div' style="float: left;padding: 10px;">
-                    <input type='text'>
-                    <p></p>
-                    <input type='password'>
-                </div>
-                <div class='infor_btn_div' style="float: left;padding: 10px;">
-                    <button type="submit" style="height: 70px;width: 100px;">제출</button>
-                </div>
+    <div class='content_wrap'>
+        <div class='infor_wrap'>
+            <div class='infor_text_div' style="float: left;padding: 10px;">
+                ID(아이디)
+                <p></p>
+                PASS(비밀번호)
+            </div>
+            <div class='infor_input_div' style="float: left;padding: 10px;">
+                <input id='usr_id' type='text' >
+                <p></p>
+                <input id='usr_pass' type='password'>
+            </div>
+            <div class='infor_btn_div' style="float: left;padding: 10px;">
+                <button type='submit' id='sub_btn' style="height: 70px;width: 100px;">제출</button>
             </div>
         </div>
-    </form>
+    </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+    function ajax_send(data, url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/page/main')
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(data));
+        console.log(data + '를 전송 완료');
+    };
+
+    document.getElementById('sub_btn').addEventListener('click', function () {
+        var id = document.getElementById('usr_id').value;
+        var pass = document.getElementById('usr_pass').value;
+        console.log(id, pass);
+
+        var data = {
+            "id": id,
+            "password": pass
+        }
+
+        console.log(data + '를 전송 준비');
+        ajax_send(data, '/page/main');
+    });
+</script>
+
 </html>

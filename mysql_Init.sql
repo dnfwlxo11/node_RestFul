@@ -22,3 +22,11 @@ grant all privileges on node_db.* node_admin@localhost;
 -- use node_db;
 
 -- 사용 시작, start use
+
+-- 테이블 생성, create table
+CREATE TABLE node_table (
+    id int auto_increment,
+    name varchar(255) not null,
+    pass varchar(255) not null,
+    primary key (id)
+);
