@@ -10,23 +10,25 @@
 
 <body>
     <div class='content_wrap'>
-        <form method='POST' action='/page/main'>
-            <div class='infor_wrap'>
-                <div class='infor_text_div' style="float: left;padding: 10px;">
-                    ID(아이디)
-                    <p></p>
-                    PASS(비밀번호)
-                </div>
-                <div class='infor_input_div' style="float: left;padding: 10px;">
-                    <input id='usr_id' type='text'>
-                    <p></p>
-                    <input id='usr_pass' type='password'>
-                </div>
-                <div class='infor_btn_div' style="float: left;padding: 10px;">
-                    <button type='submit' id='sub_btn' style="height: 70px;width: 100px;">제출</button>
-                </div>
+        <div class='infor_wrap'>
+            <div class='infor_text_div' style="float: left;padding: 10px;">
+                ID(아이디)
+                <p></p>
+                PASS(비밀번호)
             </div>
-        </form>
+            <div class='infor_input_div' style="float: left;padding: 10px;">
+                <input id='usr_id' type='text'>
+                <p></p>
+                <input id='usr_pass' type='password'>
+            </div>
+            <div class='infor_btn_div' style="float: left;padding: 10px;">
+                <button type='button' id='sub_btn' style="height: 70px;width: 100px;">제출</button>
+            </div>
+        </div>
+
+        <div class='result_div'>
+            결과 : <label class='result_label'></label>
+        </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -36,20 +38,20 @@
         xhr.open('GET', url)
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(data));
-        console.log(data + '를 전송 완료');
+        console.log(JSON.stringify(data));
+        console.log(data.id, data.password + '를 전송 완료');
     };
 
     document.getElementById('sub_btn').addEventListener('click', function () {
         var id = document.getElementById('usr_id').value;
         var pass = document.getElementById('usr_pass').value;
-        console.log(id, pass);
 
         var data = {
             "id": id,
             "password": pass
         }
 
-        console.log(data + '를 전송 준비');
+        console.log(data.id, data.password + '를 전송 준비');
         ajax_send(data, '/api/get');
     });
 </script>

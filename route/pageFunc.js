@@ -8,9 +8,10 @@ var path = require('path');
 
 // main
 router.post('/main', function (req, res) {
-    console.log(req.body.data, 'asd');
-    if (req.data) res.render(path.join(__dirname, '../public/main_loginAfter.ejs'));
-    else res.redirect('/');
+    console.log(req.params, 'asd');
+    res.send(req.body);
+    //if (req.data) res.render(path.join(__dirname, '../public/main_loginAfter.ejs'));
+    //else res.redirect('/');
 });
 
 module.exports = router;
