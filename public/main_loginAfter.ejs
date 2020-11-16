@@ -8,22 +8,70 @@
 <body>
     환영합니다.
 
-    <div>
-        <form method='GET' action='/api/get'>
-            GET <input type='submit'>
-        </form>
+    <p></p>
 
-        <form method='POST' action='/api/post'>
-            POST <input type='submit'>
-        </form>
+    <div id='content_wrap'>
+        <div id='infor_wrap' style='text-align: left;'>
+            <p></p>
 
-        <form method='PUT' action='/api/put'>
-            PUT <input type='submit'>
-        </form>
+            <div id='get_div' style="padding: 10px;">
+                <form method='GET' action='/api/get'>
+                    GET API
+                    <p></p>
+                    보고싶은 유저 <input type='text'>
+                    <input type='submit' id='get_btn'>
+                </form>
+            </div>
 
-        <form method='DELETE' action='/api/delete'>
-            DELETE <input type='submit'>
-        </form>
+            <p></p>
+
+            <div id='put_div' style="padding: 10px;">
+                <form method='PUT' action='/api/put'>
+                    PUT API
+                    <p></p>
+                    이 기능은 보여주기 애매하네
+                </form>
+            </div>
+
+            <p></p>
+
+            <div id='patch_div' style="padding: 10px;">
+                <form method='PATCH'' action='/api/patch'>
+                    PATCH API
+                    <p></p>
+                    이 기능은 보여주기 애매하네
+                </form>
+            </div>
+
+            <p></p>
+
+            <div id='post_div' style="padding: 10px;">          
+                <form method='POST' action='/api/post'>
+                    POST API
+                    <p></p>
+                    비밀번호 변경해보기 
+                    변경하고 싶은 유저 <input type='text'>
+                    <p></p>
+                    현재 비밀번호 (모르면 못바꿈) <input type='password'>
+                    <p></p>
+                    변경할 비밀번호 <input type='password'>
+                    <input type='submit' id='post_btn'>
+                </form>
+            </div>
+
+            <p></p>
+
+            <div id='delete_div' style="padding: 10px;">
+                <form method='DELETE' action='/api/delete'>
+                    DELETE API
+                    <p></p>
+                    유저정보 삭제해보기 
+                    <p></p>
+                    지우고 싶은 유저 <input type='text'>
+                    <input type='submit' id='delete_btn'>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

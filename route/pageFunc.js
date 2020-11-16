@@ -6,12 +6,16 @@ var dbConfig = require('./mysql_config');
 var db = require('./RESTful');
 var path = require('path');
 
-// main
-router.post('/main', function (req, res) {
-    console.log(req.params, 'asd');
-    res.send(req.body);
-    //if (req.data) res.render(path.join(__dirname, '../public/main_loginAfter.ejs'));
-    //else res.redirect('/');
+// 메인 페이지 (main)
+router.get('/main', function(req, res) {
+    console.log('main 페이지 이동');
+    res.render(path.join(__dirname, '../public/main_loginAfter.ejs'));
+});
+
+// 회원가입 페이지 (register)
+router.get('/register', function(req, res) {
+    console.log('register 페이지 이동');
+    res.render(path.join(__dirname, '../public/register.ejs'));
 });
 
 module.exports = router;

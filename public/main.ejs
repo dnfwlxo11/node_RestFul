@@ -5,54 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href='css/style.css'>
-    <title>MainPage(메인페이지)</title>
+    <title>메인페이지(MainPage)</title>
 </head>
 
 <body>
     <div class='content_wrap'>
-        <div class='infor_wrap'>
-            <div class='infor_text_div' style="float: left;padding: 10px;">
-                ID(아이디)
-                <p></p>
-                PASS(비밀번호)
+        <form method='GET' action='/page/main' id='infor_form'>
+            <div class='infor_wrap'>
+                <div class='infor_text_div' style="float: left;padding: 10px;">
+                    아이디(ID)
+                    <p></p>
+                    비밀번호(PASS)
+                </div>
+                <div class='infor_input_div' style="float: left;padding: 10px;">
+                    <input id='usr_id' type='text'>
+                    <p></p>
+                    <input id='usr_pass' type='password'>
+                </div>
+                <div class='infor_btn_div' style="float: left;padding: 10px;">
+                    <button type='submit' id='sub_btn' style="height: 70px;width: 100px;">제출</button>
+                </div>
             </div>
-            <div class='infor_input_div' style="float: left;padding: 10px;">
-                <input id='usr_id' type='text'>
-                <p></p>
-                <input id='usr_pass' type='password'>
-            </div>
-            <div class='infor_btn_div' style="float: left;padding: 10px;">
-                <button type='button' id='sub_btn' style="height: 70px;width: 100px;">제출</button>
-            </div>
-        </div>
-
-        <div class='result_div'>
-            결과 : <label class='result_label'></label>
+        </form>
+        <div style="text-align: right;padding: 10px;">
+            <form method='GET' action='/page/register'>
+                <button type=submit id='reg_btn' style="height: 30px;width: 100px;">회원가입</button>
+            </form>
         </div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
-    function ajax_send(data, url) {
+    function ajax_send(type, url) {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', url)
+        xhr.open(type, url);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-        console.log(JSON.stringify(data));
-        console.log(data.id, data.password + '를 전송 완료');
+        xhr.send('send user information');
+        console.log('유저 정보를 전송 완료');
+
+        xhr.addEventListener('load', function() {
+            var Recivedata = JSON.parse(xhr.responseText);
+
+            if (Recivedata.data) {
+                console.log('로그인에 성공하여 접속합니다.')
+            }
+
+            else alert('ID나 PASS를 다시 한 번 확인해주세요.');
+        });
     };
 
     document.getElementById('sub_btn').addEventListener('click', function () {
         var id = document.getElementById('usr_id').value;
         var pass = document.getElementById('usr_pass').value;
 
-        var data = {
-            "id": id,
-            "password": pass
-        }
-
-        console.log(data.id, data.password + '를 전송 준비');
-        ajax_send(data, '/api/get');
+        console.log('유저 정보를 전송 준비');
+        ajax_send('GET', '/api/user/' + id + '/' + pass);
     });
 </script>
 
