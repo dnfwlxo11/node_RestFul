@@ -23,7 +23,7 @@
                     <input id='usr_pass' type='password'>
                 </div>
                 <div class='infor_btn_div' style="float: left;padding: 10px;">
-                    <button type='submit' id='sub_btn' style="height: 70px;width: 100px;">제출</button>
+                    <button type='button' id='sub_btn' style="height: 70px;width: 100px;">제출</button>
                 </div>
             </div>
         </form>
@@ -45,9 +45,10 @@
 
         xhr.addEventListener('load', function() {
             var Recivedata = JSON.parse(xhr.responseText);
-
+            console.log(xhr.responseText)
             if (Recivedata.data) {
                 console.log('로그인에 성공하여 접속합니다.')
+                document.getElementById('infor_form').submit();
             }
 
             else alert('ID나 PASS를 다시 한 번 확인해주세요.');

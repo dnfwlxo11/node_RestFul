@@ -18,13 +18,13 @@
                     메모(MEMO)
                 </div>
                 <div class='infor_input_div' style="float: left;padding: 10px;">
-                    <input type='text' style="width: 300px;">
+                    <input type='text' style="width: 300px;" id='usr_id'>
                     <p></p>
-                    <input type='password' style="width: 300px;">
+                    <input type='password' style="width: 300px;" id='usr_pass'>
                     <p></p>
-                    <textarea rows='5' style="width: 300px;" placeholder="간단한 자기소개를 써주세요 (Write down you'r information)"></textarea>
+                    <textarea rows='5' style="width: 300px; text-align: left;" placeholder="간단한 자기소개를 써주세요 (Write down you'r information)" id='usr_memo'></textarea>
                     <p></p>
-                    <button type='submit' id='sub_btn' style="height: 50px;width: 200px;">제출</button>
+                    <button type='button' id='sub_btn' style="height: 50px;width: 200px;">제출</button>
                 </div>
             </div>
         </div>
@@ -40,21 +40,23 @@
 
         xhr.addEventListener('load', function() {
             var Recivedata = JSON.parse(xhr.responseText);
+            console.log(Recivedata);
 
             if (Recivedata.data) {
-                console.log('로그인에 성공하여 접속합니다.')
+                alert('회원가입이 정상적으로 완료되었습니다.')
             }
 
-            else alert('ID나 PASS를 다시 한 번 확인해주세요.');
+            else alert('미기입한 곳이 있는지 확인해주세요.');
         });
     };
 
     document.getElementById('sub_btn').addEventListener('click', function () {
-        var id = document.getElementById('usr_id').value;
+        var name = document.getElementById('usr_id').value;
         var pass = document.getElementById('usr_pass').value;
+        var memo = document.getElementById('usr_memo').value;
 
         console.log('유저 정보를 전송 준비');
-        ajax_send('GET', '/api/user/' + id + '/' + pass);
+        ajax_send('POST', '/api/register/' + name + '/' + pass + '/' + memo);
     });
 </script>
 </html>

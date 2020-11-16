@@ -28,5 +28,9 @@ CREATE TABLE node_table (
     id int auto_increment,
     name varchar(255) not null,
     pass varchar(255) not null,
+    memo varchar(255),
     primary key (id)
 );
+
+-- 테스트 생성
+INSERT INTO node_table(name, pass, memo) VALUES ('daechu', '1234', 'hello admin');

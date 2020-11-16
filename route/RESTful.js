@@ -6,22 +6,21 @@ var session = require('express-session');
 var dbConfig = require('./mysql_config');
 var router = express.Router();
 
+
+
 router.get('/user/:name/:pass', function(req, res) {
     console.log('받은 정보 : ' + req.params.name, req.params.pass)
     var sess;
     sess = req.session;
-    var cnt = true;
     var conn = mysql.createConnection(dbConfig);
-    var sql = 'SELECT * FROM node_table where name=?';
-    var query;
+    var sql = 'SELECT * FROM node_table WHERE name=?';
     var data = req.params;
     var sendData = {};
 
-    query = conn.query(sql, [data.name], function(err, rows) {
+    var query = conn.query(sql, [data.name], function(err, rows) {
         if (err) {
             console.log('존재하지 않는 회원이거나 비밀번호가 틀렸습니다. \n다시 한번 확인해 주세요.');
             sendData.data = false;
-            conn.end();
         }
 
         else {
@@ -31,17 +30,16 @@ router.get('/user/:name/:pass', function(req, res) {
                 sess.password = data.pass;
                 console.log('현재 session에 저장된 정보 :', sess.username, sess.password);
                 sendData.data = true;
-                conn.end();
             }
 
             else {
                 console.log('존재하지 않는 회원이거나 비밀번호가 틀렸습니다. 2\n다시 한번 확인해 주세요.');
                 sendData.data = false;
-                conn.end();
             }
         }
 
-        res.json(sendData);
+        conn.end();
+        res.send(sendData);
     });
 });
 
@@ -53,12 +51,34 @@ router.patch('/patch', function(req, res) {
     console.log('patch 실행');
 });
 
-router.post('/post', function(req, res) {
-    console.log('post 실행');
-    res.render(path.join(__dirname, '../public/1.ejs'))
+router.post('/register/:name/:pass/:memo', function(req, res) {
+    var conn = mysql.createConnection(dbConfig);
+    var sql = 'INSERT INTO node_table(name, pass, memo) VALUES (?, ?, ?)';
+    var data = req.params;
+    var sendData = {};
+
+    console.log(data.name, data.pass, data.memo);
+
+    if (data.memo.length == 0) data.memo = 'none';
+
+    // var query = conn.query(sql, [data.name, data.pass, data.memo], function(err, rows) {
+    //     if (err) {
+    //         console.log('이미 가입한 회원입니다.');
+    //         conn.end();
+    //         sendData.data = false;
+    //     }
+
+    //     else {
+    //         console.log('정상적으로 회원가입이 완료되었습니다.');
+    //         sendData.data = true;
+    //     }
+    // });
+
+    // conn.end();
+    // res.send(sendData);
 });
 
-router.delete('/delete', function(req, res) {
+router.delete('/delete/:name/:pass', function(req, res) {
     console.log('delete 실행');
 });
 
