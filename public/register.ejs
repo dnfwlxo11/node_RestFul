@@ -6,47 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입(Register)</title>
 </head>
+
 <body>
-    <form method='get' action='/'>
-        <div id='content_wrap'>
-            <div id='infor_wrap'>
-                <div class='infor_text_div' style="float: left;padding: 10px;">
-                    아이디(ID)
-                    <p></p>
-                    비밀번호(PASS)
-                    <p></p>
-                    메모(MEMO)
-                </div>
-                <div class='infor_input_div' style="float: left;padding: 10px;">
-                    <input type='text' style="width: 300px;" id='usr_id'>
+    <div id='content_wrap'>
+        <div id='infor_wrap'>
+            <div class='infor_text_div' style="float: left;padding: 10px;">
+                아이디(ID)
+                <p></p>
+                비밀번호(PASS)
+                <p></p>
+                메모(MEMO)
+            </div>
+            <div class='infor_input_div' style="float: left;padding: 10px;">
+                <form method="GET" action='/' id='infor_form'>
+                    <input type='text' style="width: 300px;" id='usr_id'> <button type='button' id='id_chk'>중복
+                        체크</button> <label id='id_status' style="display: none;"></label>
                     <p></p>
                     <input type='password' style="width: 300px;" id='usr_pass'>
                     <p></p>
-                    <textarea rows='5' style="width: 300px; text-align: left;" placeholder="간단한 자기소개를 써주세요 (Write down you'r information)" id='usr_memo'></textarea>
+                    <textarea rows='5' style="width: 300px; text-align: left;"
+                        placeholder="간단한 자기소개를 써주세요 (Write down you'r information)" id='usr_memo'></textarea>
                     <p></p>
                     <button type='button' id='sub_btn' style="height: 50px;width: 200px;">제출</button>
-                </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 </body>
 <script>
     function ajax_send(type, url) {
         var xhr = new XMLHttpRequest();
         xhr.open(type, url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send('send user information');
         console.log('유저 정보를 전송 완료');
 
-        xhr.addEventListener('load', function() {
+        xhr.addEventListener('load', function () {
             var Recivedata = JSON.parse(xhr.responseText);
-            console.log(Recivedata);
-
+            console.log(Recivedata.data);
             if (Recivedata.data) {
-                alert('회원가입이 정상적으로 완료되었습니다.')
+                alert('회원가입이 정상적으로 완료되었습니다.');
+                document.getElementById('infor_form').submit();
             }
 
-            else alert('미기입한 곳이 있는지 확인해주세요.');
+            else alert('입력하지 않은 곳이 있는지 확인해주세요.');
         });
     };
 
@@ -55,8 +57,38 @@
         var pass = document.getElementById('usr_pass').value;
         var memo = document.getElementById('usr_memo').value;
 
-        console.log('유저 정보를 전송 준비');
-        ajax_send('POST', '/api/register/' + name + '/' + pass + '/' + memo);
+        if (document.getElementById('id_status').value != name) {
+            alert('아이디 중복 체크를 해주세요.');
+            document.getElementById('id_status').value = 'no';
+        }
+
+        else {
+            console.log('유저 정보를 전송 준비');
+            ajax_send('POST', '/api/register/' + name + '/' + pass + '/' + memo);
+        }
+    });
+
+    document.getElementById('id_chk').addEventListener('click', function () {
+        var name = document.getElementById('usr_id').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/api/user/' + name);
+        xhr.send('send user information');
+        console.log('유저 정보를 전송 완료');
+
+        xhr.addEventListener('load', function () {
+            var Recivedata = JSON.parse(xhr.responseText);
+
+            if (Recivedata.data) {
+                alert('사용 가능한 아이디입니다.')
+                document.getElementById('id_status').value = name;
+            }
+
+            else {
+                alert('이미 사용중인 아이디이거나 사용 불가능한 아이디입니다. \n다시 입력해주세요');
+                document.getElementById('id_status').value = 'no';
+            }
+        });
     });
 </script>
+
 </html>

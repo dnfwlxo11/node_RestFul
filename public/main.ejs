@@ -39,7 +39,6 @@
     function ajax_send(type, url) {
         var xhr = new XMLHttpRequest();
         xhr.open(type, url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send('send user information');
         console.log('유저 정보를 전송 완료');
 
@@ -56,11 +55,11 @@
     };
 
     document.getElementById('sub_btn').addEventListener('click', function () {
-        var id = document.getElementById('usr_id').value;
+        var name = document.getElementById('usr_id').value;
         var pass = document.getElementById('usr_pass').value;
 
         console.log('유저 정보를 전송 준비');
-        ajax_send('GET', '/api/user/' + id + '/' + pass);
+        ajax_send('GET', '/api/user/' + name + '/' + pass);
     });
 </script>
 

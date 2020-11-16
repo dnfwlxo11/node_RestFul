@@ -4,12 +4,41 @@ var async = require('async');
 var path = require('path');
 var session = require('express-session');
 var dbConfig = require('./mysql_config');
+const { send } = require('process');
 var router = express.Router();
 
+router.get('/user/:name', function(req, res) {
+    var sess;
+    sess = req.session;
+    var conn = mysql.createConnection(dbConfig);
+    var sql = 'SELECT * FROM node_table WHERE name=?';
+    var data = req.params;
+    var sendData = {};
 
+    var query = conn.query(sql, [data.name], function(err, rows) {
+        if (err) {
+            console.log('데이터베이스 에러 발생');
+            sendData.data = false;
+        }
+        
+        else {
+            if (rows.length != 0) {
+                console.log('이미 사용중인 아이디입니다.');
+                sendData.data = false;
+            }
+
+            else {
+                console.log('사용 가능한 아이디입니다.');
+                sendData.data = true;
+            }
+        }
+
+        conn.end();
+        res.send(sendData);
+    });
+});
 
 router.get('/user/:name/:pass', function(req, res) {
-    console.log('받은 정보 : ' + req.params.name, req.params.pass)
     var sess;
     sess = req.session;
     var conn = mysql.createConnection(dbConfig);
@@ -53,29 +82,27 @@ router.patch('/patch', function(req, res) {
 
 router.post('/register/:name/:pass/:memo', function(req, res) {
     var conn = mysql.createConnection(dbConfig);
+
     var sql = 'INSERT INTO node_table(name, pass, memo) VALUES (?, ?, ?)';
     var data = req.params;
     var sendData = {};
 
-    console.log(data.name, data.pass, data.memo);
-
     if (data.memo.length == 0) data.memo = 'none';
 
-    // var query = conn.query(sql, [data.name, data.pass, data.memo], function(err, rows) {
-    //     if (err) {
-    //         console.log('이미 가입한 회원입니다.');
-    //         conn.end();
-    //         sendData.data = false;
-    //     }
+    var query = conn.query(sql, [data.name, data.pass, data.memo], function(err, rows) {
+        if (err) {
+            console.log('이미 가입한 회원입니다.');
+            sendData.data = false;
+        }
 
-    //     else {
-    //         console.log('정상적으로 회원가입이 완료되었습니다.');
-    //         sendData.data = true;
-    //     }
-    // });
+        else {
+            console.log('정상적으로 회원가입이 완료되었습니다.');
+            sendData.data = true;
+        }
 
-    // conn.end();
-    // res.send(sendData);
+        conn.end();
+        res.send(sendData);
+    });
 });
 
 router.delete('/delete/:name/:pass', function(req, res) {
