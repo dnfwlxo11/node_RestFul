@@ -214,7 +214,6 @@ router.post('/update/:name/:oldpass/:newpass', function (req, res) {
         else {
             if (rows[0].pass == data.oldpass) console.log('비밀번호 일치, 변경 시작');
 
-
             else {
                 console.log('비밀번호 불일치')
                 sendData.data = false;
