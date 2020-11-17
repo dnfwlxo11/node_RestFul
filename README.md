@@ -10,4 +10,4 @@ node.js를 mysql과 연동하여 Restful하게 구현하고 mysql-session을 사
 4. npm start하여 서버 시작 (command npm start, server start)
   
   
-## - main language is korean, if don't understand use google translate krean -> english
+#### - main language is korean, if don't understand use google translate krean -> english
