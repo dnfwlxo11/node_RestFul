@@ -59,7 +59,7 @@
         var pass = document.getElementById('usr_pass').value;
 
         console.log('유저 정보를 전송 준비');
-        ajax_send('GET', '/api/user/' + name + '/' + pass);
+        ajax_send('GET', '/api/login/' + name + '/' + pass);
     });
 </script>
 

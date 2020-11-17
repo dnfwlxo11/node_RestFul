@@ -7,6 +7,16 @@ var dbConfig = require('./mysql_config');
 const { send } = require('process');
 var router = express.Router();
 
+router.post('/logout', function(req, res) {
+    req.session.destroy(function(err) {
+        if (err) console.log('세션 종료 중 에러가 발생했습니다.', err);
+        else {
+            console.log('세션 종료 완료');
+            res.redirect('/');
+        }
+    });
+});
+
 router.get('/find/:name', function (req, res) {
     var sess;
     sess = req.session;
@@ -76,7 +86,7 @@ router.get('/user/:name', function (req, res) {
 });
 
 
-router.get('/user/:name/:pass', function (req, res) {
+router.get('/login/:name/:pass', function (req, res) {
     var sess;
     sess = req.session;
     var conn = mysql.createConnection(dbConfig);

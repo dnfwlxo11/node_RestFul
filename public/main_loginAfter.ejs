@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    환영합니다.
+    환영합니다. <form method='GET' action='/' id='logout_form'><button id='logout_btn'>로그아웃</button></form>
 
     <p></p>
 
@@ -90,10 +90,11 @@
                 document.getElementById('post_form').submit();
             }
             else if (ReciveData.type == 'delete_user') {
-                alert('삭제를 완료했습니다. 세션 기능이 업데이트 될때까지 재접속 해주세요.');
+                alert('삭제를 완료했습니다. 재접속 해주세요.');
                 document.getElementById('delete_form').submit();
             }
             else if (ReciveData.type == 'error') alert('입력하신 값을 다시 한 번 확인해주세요.');
+            else {}
         });
     };
 
@@ -117,6 +118,10 @@
 
         ajax_send('DELETE', '/api/user/' + name + '/' + pass + '/');
     });
+
+    document.getElementById('logout_btn').addEventListener('click', function () {
+        ajax_send('POST', '/api/logout');
+    })
 </script>
 
 </html>

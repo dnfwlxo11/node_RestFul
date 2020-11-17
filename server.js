@@ -31,7 +31,7 @@ app.use(session({
         database: 'node_session'
     }),
     cookie: {
-        maxAge: 1000*60*1
+        maxAge: 1000*60*10
     }
 }));
 
