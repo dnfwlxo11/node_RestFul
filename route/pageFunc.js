@@ -9,7 +9,8 @@ var path = require('path');
 // 메인 페이지 (main)
 router.get('/main', function(req, res) {
     console.log('main 페이지 이동');
-    res.render(path.join(__dirname, '../public/main_loginAfter.ejs'));
+    if (req.session.username && req.session.password) res.render(path.join(__dirname, '../public/main_loginAfter.ejs'));
+    else  res.render(path.join(__dirname, '../public/main.ejs'));
 });
 
 // 회원가입 페이지 (register)

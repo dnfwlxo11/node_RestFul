@@ -11,7 +11,7 @@ router.get('/find/:name', function (req, res) {
     var sess;
     sess = req.session;
     var conn = mysql.createConnection(dbConfig);
-    var sql = 'SELECT * FROM node_table WHERE name=?';
+    var sql = 'SELECT * FROM node_table WHERE name1=?';
     var data = req.params;
     var sendData = {};
 
@@ -48,7 +48,7 @@ router.get('/user/:name', function (req, res) {
     var sess;
     sess = req.session;
     var conn = mysql.createConnection(dbConfig);
-    var sql = 'SELECT * FROM node_table WHERE name=?';
+    var sql = 'SELECT * FROM node_table WHERE name1=?';
     var data = req.params;
     var sendData = {};
 
@@ -80,7 +80,7 @@ router.get('/user/:name/:pass', function (req, res) {
     var sess;
     sess = req.session;
     var conn = mysql.createConnection(dbConfig);
-    var sql = 'SELECT * FROM node_table WHERE name=?';
+    var sql = 'SELECT * FROM node_table WHERE name1=?';
     var data = req.params;
     var sendData = {};
 
@@ -91,7 +91,7 @@ router.get('/user/:name/:pass', function (req, res) {
         }
 
         else {
-            if (rows.length != 0 && rows[0].name == data.name && rows[0].pass == data.pass) {
+            if (rows.length != 0 && rows[0].name1 == data.name && rows[0].pass == data.pass) {
                 console.log('로그인 후 메인페이지로 이동');
                 sess.username = data.name;
                 sess.password = data.pass;
@@ -113,7 +113,7 @@ router.get('/user/:name/:pass', function (req, res) {
 router.delete('/user/:name/:pass', function (req, res) {
     var conn = mysql.createConnection(dbConfig);
 
-    var sql = 'SELECT * FROM node_table WHERE name=?';
+    var sql = 'SELECT * FROM node_table WHERE name1=?';
     var data = req.params;
     var sendData = {};
 
@@ -135,7 +135,7 @@ router.delete('/user/:name/:pass', function (req, res) {
         }
     });
 
-    var sql = 'DELETE FROM node_table WHERE name=?';
+    var sql = 'DELETE FROM node_table WHERE name1=?';
 
     var query = conn.query(sql, [data.name], function (err, rows) {
         if (err) {
@@ -166,7 +166,7 @@ router.patch('/patch', function (req, res) {
 router.post('/register/:name/:pass/:memo', function (req, res) {
     var conn = mysql.createConnection(dbConfig);
 
-    var sql = 'INSERT INTO node_table(name, pass, memo) VALUES (?, ?, ?)';
+    var sql = 'INSERT INTO node_table(name1, pass, memo) VALUES (?, ?, ?)';
     var data = req.params;
     var sendData = {};
 
@@ -190,7 +190,7 @@ router.post('/register/:name/:pass/:memo', function (req, res) {
 
 router.post('/update/:name/:oldpass/:newpass', function (req, res) {
     var conn = mysql.createConnection(dbConfig);
-    var sql = 'SELECT * FROM node_table WHERE name=?';
+    var sql = 'SELECT * FROM node_table WHERE name1=?';
     var data = req.params;
     var sendData = {};
 
@@ -213,7 +213,7 @@ router.post('/update/:name/:oldpass/:newpass', function (req, res) {
         }
     });
 
-    var sql = 'UPDATE node_table SET pass=? WHERE name=?';
+    var sql = 'UPDATE node_table SET pass=? WHERE name1=?';
 
     var query = conn.query(sql, [data.newpass, data.name], function (err, rows) {
         if (err) {

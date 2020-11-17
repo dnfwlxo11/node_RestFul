@@ -14,7 +14,8 @@ router.use('/api', db, function() {
 
 // main
 router.get('/', function(req, res) {
-    res.render(path.join(__dirname, '../public/main.ejs'));
+    if (req.session.username && req.session.password) res.render(path.join(__dirname, '../public/main_loginAfter.ejs'));
+    else  res.render(path.join(__dirname, '../public/main.ejs'));
 });
 
 module.exports = router;
