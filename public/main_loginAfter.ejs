@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MainPage(메인페이지)</title>
 </head>
+
 <body>
     환영합니다.
 
@@ -15,28 +17,24 @@
             <p></p>
 
             <div id='get_div' style="padding: 10px;">
-                <form method='GET' action='/api/get'>
-                    GET API
-                    <p></p>
-                    보고싶은 유저 <input type='text'>
-                    <input type='submit' id='get_btn'>
-                </form>
+                GET API
+                <p></p>
+                보고싶은 유저 <input type='text' id='get_input'>
+                <button type='button' id='get_btn'>제출
             </div>
 
             <p></p>
 
             <div id='put_div' style="padding: 10px;">
-                <form method='PUT' action='/api/put'>
-                    PUT API
-                    <p></p>
-                    이 기능은 보여주기 애매하네
-                </form>
+                PUT API
+                <p></p>
+                이 기능은 보여주기 애매하네
             </div>
 
             <p></p>
 
             <div id='patch_div' style="padding: 10px;">
-                <form method='PATCH'' action='/api/patch'>
+                <form method='PATCH'' action=' /api/patch'>
                     PATCH API
                     <p></p>
                     이 기능은 보여주기 애매하네
@@ -45,33 +43,80 @@
 
             <p></p>
 
-            <div id='post_div' style="padding: 10px;">          
-                <form method='POST' action='/api/post'>
+            <div id='post_div' style="padding: 10px;">
+                <form method='GET' action='/' id='post_form'>
                     POST API
                     <p></p>
-                    비밀번호 변경해보기 
-                    변경하고 싶은 유저 <input type='text'>
+                    비밀번호 변경해보기
+                    변경하고 싶은 유저 <input type='text' id='post_name'>
                     <p></p>
-                    현재 비밀번호 (모르면 못바꿈) <input type='password'>
+                    현재 비밀번호 (모르면 못 바꿈) <input type='password' id='post_oldpass'>
                     <p></p>
-                    변경할 비밀번호 <input type='password'>
-                    <input type='submit' id='post_btn'>
+                    변경할 비밀번호 <input type='password' id='post_newpass'>
+                    <button type='button' id='post_btn'>제출</button>
                 </form>
             </div>
 
             <p></p>
 
             <div id='delete_div' style="padding: 10px;">
-                <form method='DELETE' action='/api/delete'>
+                <form method='GET' action='/' id='delete_form'>
                     DELETE API
                     <p></p>
-                    유저정보 삭제해보기 
+                    유저정보 삭제해보기
                     <p></p>
-                    지우고 싶은 유저 <input type='text'>
-                    <input type='submit' id='delete_btn'>
+                    현재 비밀번호 (모르면 못 지움) <input type='password' id='delete_pass'>
+                    <p></p>
+                    지우고 싶은 유저 <input type='text' id='delete_name'>
+                    <button type='button' id='delete_btn'>제출
                 </form>
             </div>
         </div>
     </div>
 </body>
+<script>
+    function ajax_send(type, url) {
+        var xhr = new XMLHttpRequest();
+        xhr.open(type, url)
+        xhr.send('send information');
+
+        xhr.addEventListener('load', function () {
+            var ReciveData = JSON.parse(xhr.responseText);
+            console.log(ReciveData.type);
+
+            if (ReciveData.type == 'find_user') alert('아이디 : ' + ReciveData.data.name + '\n' + '비밀번호 : ' + ReciveData.data.pass + '\n' + '메모 : ' + ReciveData.data.memo);
+            else if (ReciveData.type == 'update_pass') {
+                alert('비밀번호를 변경하였습니다. \n 바뀐 비밀번호로 다시 로그인해주세요.');
+                document.getElementById('post_form').submit();
+            }
+            else if (ReciveData.type == 'delete_user') {
+                alert('삭제를 완료했습니다. 세션 기능이 업데이트 될때까지 재접속 해주세요.');
+                document.getElementById('delete_form').submit();
+            }
+            else if (ReciveData.type == 'error') alert('입력하신 값을 다시 한 번 확인해주세요.');
+        });
+    };
+
+    document.getElementById('get_btn').addEventListener('click', function () {
+        var name = document.getElementById('get_input').value;
+
+        ajax_send('GET', '/api/find/' + name);
+    });
+
+    document.getElementById('post_btn').addEventListener('click', function () {
+        var name = document.getElementById('post_name').value;
+        var oldpass = document.getElementById('post_oldpass').value;
+        var newpass = document.getElementById('post_newpass').value;
+
+        ajax_send('POST', '/api/update/' + name + '/' + oldpass + '/' + newpass);
+    });
+
+    document.getElementById('delete_btn').addEventListener('click', function () {
+        var name = document.getElementById('delete_name').value;
+        var pass = document.getElementById('delete_pass').value;
+
+        ajax_send('DELETE', '/api/user/' + name + '/' + pass + '/');
+    });
+</script>
+
 </html>
